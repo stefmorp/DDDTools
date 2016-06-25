@@ -48,6 +48,9 @@ namespace DDDTools
             Console.WriteLine("Wrote to file");
         }
 
+        private void receiptbutton_Click(object sender, EventArgs e)
+        {
 
+        }
     }
 }

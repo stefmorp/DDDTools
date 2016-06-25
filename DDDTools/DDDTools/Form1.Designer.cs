@@ -53,6 +53,9 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
+            this.id = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.receiptbutton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // storebutton
@@ -257,11 +260,40 @@
             this.label12.TabIndex = 25;
             this.label12.Text = "Date";
             // 
+            // id
+            // 
+            this.id.Location = new System.Drawing.Point(512, 31);
+            this.id.Name = "id";
+            this.id.Size = new System.Drawing.Size(100, 20);
+            this.id.TabIndex = 26;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(512, 15);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(18, 13);
+            this.label13.TabIndex = 27;
+            this.label13.Text = "ID";
+            // 
+            // receiptbutton
+            // 
+            this.receiptbutton.Location = new System.Drawing.Point(512, 70);
+            this.receiptbutton.Name = "receiptbutton";
+            this.receiptbutton.Size = new System.Drawing.Size(116, 34);
+            this.receiptbutton.TabIndex = 28;
+            this.receiptbutton.Text = "Generate Reciept";
+            this.receiptbutton.UseVisualStyleBackColor = true;
+            this.receiptbutton.Click += new System.EventHandler(this.receiptbutton_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(669, 375);
+            this.ClientSize = new System.Drawing.Size(864, 379);
+            this.Controls.Add(this.receiptbutton);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.id);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
@@ -321,6 +353,9 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox id;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button receiptbutton;
     }
 }
 
