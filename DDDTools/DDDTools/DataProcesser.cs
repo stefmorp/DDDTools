@@ -14,6 +14,7 @@ namespace DDDTools
         private Dictionary<string, List<string>> database = new Dictionary<string, List<string>>();
         private string lastmodified = "22/06/2016";
         private int lastID = 0;
+        private string lastnumber;
         FileInfo datatable = new FileInfo(@"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\datatable.xlsx");
 
 
@@ -50,6 +51,7 @@ namespace DDDTools
                 database.Add(id, new List<string> { number, year, name, surname, address, cap, city, province, fiscalcode, IVA, amount, date });
                 lastmodified = DateTime.Now.ToString("dd/MM/yyyy");
                 lastID++;
+                lastnumber = number;
             }
             else
             {
@@ -65,7 +67,7 @@ namespace DDDTools
             {
                 ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
 
-                worksheet.Cell(lastID, 1).Value = id;
+                worksheet.Cell(lastID, 1).Value = id;      
                 worksheet.Cell(lastID, 2).Value = number;
                 worksheet.Cell(lastID, 3).Value = year;
                 worksheet.Cell(lastID, 4).Value = name;
@@ -121,6 +123,10 @@ namespace DDDTools
         public void setLastId()
         {
             lastID++;
+        }
+        public string getLastNumber()
+        {
+            return lastnumber;
         }
     }
 }
