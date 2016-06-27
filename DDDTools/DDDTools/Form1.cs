@@ -103,6 +103,8 @@ namespace DDDTools
                 text = text + " " + s;
             }
             pdf.Create(text,fs);
+
+            Console.WriteLine("Created Pdf");
         }
 
         private void OpenPdf_Click(object sender, EventArgs e)
