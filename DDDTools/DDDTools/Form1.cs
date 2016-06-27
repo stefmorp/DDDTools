@@ -22,7 +22,7 @@ namespace DDDTools
 
             
 
-            // Dumbo.Update();
+            Dumbo.Update();
 
             int lastnumber = Int32.Parse(Dumbo.getLastNumber());
             string numberstring;
@@ -103,6 +103,16 @@ namespace DDDTools
                 text = text + " " + s;
             }
             pdf.Create(text,fs);
+        }
+
+        private void OpenPdf_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\receipt.pdf");
+        }
+
+        private void OpenXlsx_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\datatable.xlsx");
         }
     }
 }

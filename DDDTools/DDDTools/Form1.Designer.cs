@@ -56,6 +56,8 @@
             this.id = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.receiptbutton = new System.Windows.Forms.Button();
+            this.OpenPdf = new System.Windows.Forms.Button();
+            this.OpenXlsx = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // storebutton
@@ -286,11 +288,33 @@
             this.receiptbutton.UseVisualStyleBackColor = true;
             this.receiptbutton.Click += new System.EventHandler(this.receiptbutton_Click);
             // 
+            // OpenPdf
+            // 
+            this.OpenPdf.Location = new System.Drawing.Point(634, 70);
+            this.OpenPdf.Name = "OpenPdf";
+            this.OpenPdf.Size = new System.Drawing.Size(75, 35);
+            this.OpenPdf.TabIndex = 29;
+            this.OpenPdf.Text = "Open";
+            this.OpenPdf.UseVisualStyleBackColor = true;
+            this.OpenPdf.Click += new System.EventHandler(this.OpenPdf_Click);
+            // 
+            // OpenXlsx
+            // 
+            this.OpenXlsx.Location = new System.Drawing.Point(134, 292);
+            this.OpenXlsx.Name = "OpenXlsx";
+            this.OpenXlsx.Size = new System.Drawing.Size(75, 35);
+            this.OpenXlsx.TabIndex = 30;
+            this.OpenXlsx.Text = "Open";
+            this.OpenXlsx.UseVisualStyleBackColor = true;
+            this.OpenXlsx.Click += new System.EventHandler(this.OpenXlsx_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(864, 379);
+            this.Controls.Add(this.OpenXlsx);
+            this.Controls.Add(this.OpenPdf);
             this.Controls.Add(this.receiptbutton);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.id);
@@ -356,6 +380,8 @@
         private System.Windows.Forms.TextBox id;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Button receiptbutton;
+        private System.Windows.Forms.Button OpenPdf;
+        private System.Windows.Forms.Button OpenXlsx;
     }
 }
 
