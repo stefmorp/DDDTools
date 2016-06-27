@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace DDDTools
 {
@@ -21,7 +22,7 @@ namespace DDDTools
 
             
 
-            Dumbo.Update();
+            // Dumbo.Update();
 
             int lastnumber = Int32.Parse(Dumbo.getLastNumber());
             string numberstring;
@@ -94,7 +95,14 @@ namespace DDDTools
 
         private void receiptbutton_Click(object sender, EventArgs e)
         {
-
+            PdfGenerator pdf = new PdfGenerator();
+            FileStream fs = new FileStream(@"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\receipt.pdf", FileMode.Create);
+            string text = "";
+            foreach(string s in Dumbo.Get()[this.id.Text])
+            {
+                text = text + " " + s;
+            }
+            pdf.Create(text,fs);
         }
     }
 }

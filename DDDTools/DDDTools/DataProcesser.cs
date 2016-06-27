@@ -14,7 +14,7 @@ namespace DDDTools
         private Dictionary<string, List<string>> database = new Dictionary<string, List<string>>();
         private string lastmodified = "22/06/2016";
         private int lastID = 0;
-        private string lastnumber;
+        private string lastnumber = "0000";
         FileInfo datatable = new FileInfo(@"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\datatable.xlsx");
 
 
