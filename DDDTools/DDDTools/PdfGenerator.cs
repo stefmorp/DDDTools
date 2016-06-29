@@ -38,5 +38,68 @@ namespace DDDTools
 
         }
 
+        public void FillTemplate(string number, string year, string name, string surname, string address, string cap, string city, string province, string fiscalcode, string IVA, string amount, string date)
+        {
+            string oldFile = @"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\template.pdf";
+            string newFile = @"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\receipt.pdf";
+
+            // open the reader
+            PdfReader reader = new PdfReader(oldFile);
+            Rectangle size = reader.GetPageSizeWithRotation(1);
+            Document document = new Document(size);
+
+            // open the writer
+            FileStream fs = new FileStream(newFile, FileMode.Create, FileAccess.Write);
+            PdfWriter writer = PdfWriter.GetInstance(document, fs);
+            document.Open();
+
+            // the pdf content
+            PdfContentByte cb = writer.DirectContent;
+
+            // select the font properties
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            cb.SetColorFill(BaseColor.DARK_GRAY);
+            cb.SetFontAndSize(bf, 10);
+
+            // write the text in the pdf content
+            cb.BeginText();
+
+            // testing cooridinates
+            //string text = "Some random blablablabla...";
+            // put the alignment and coordinates here
+            //for(int i = 0; i < 1000; i = i + 50)
+            //{
+            //    for(int j = 0; j < 1000; j = j + 50)
+            //    {
+            //        cb.ShowTextAligned(1, i.ToString() + "/" + j.ToString(), i, j, 0);
+            //    }
+            //}
+
+            cb.ShowTextAligned(1, surname + " " + name, 140, 630, 0);
+            cb.ShowTextAligned(1, address, 130, 607, 0);
+            cb.ShowTextAligned(1, city, 90, 582, 0);
+            cb.ShowTextAligned(1, fiscalcode, 110, 558, 0);
+            cb.ShowTextAligned(1, IVA, 100, 540, 0);
+            cb.ShowTextAligned(1, cap, 430, 608, 0);
+            cb.ShowTextAligned(1, province, 450, 582, 0);
+            cb.ShowTextAligned(1, amount, 120, 405, 0);
+            cb.ShowTextAligned(1, "millemilamilionidipatate", 2804, 405, 0);
+            cb.ShowTextAligned(1, "Ricevuta n'" + number + " del " + date , 150, 350, 0);
+
+
+
+            cb.EndText();
+
+            // create the new page and add it to the pdf
+            PdfImportedPage page = writer.GetImportedPage(reader, 1);
+            cb.AddTemplate(page, 0, 0);
+
+            // close the streams and voilá the file should be changed :)
+            document.Close();
+            fs.Close();
+            writer.Close();
+            reader.Close();
+        }
+
     }
 }
