@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -44,7 +45,31 @@ namespace DDDTools
 
         private void UpdateData_Click(object sender, EventArgs e)
         {
+             Thread thread = new Thread(DumboUpdate);
+             thread.IsBackground = true;
+             thread.Start();
+            // Dumbo.Update();
+        }
+
+        private void DumboUpdate()
+        {
+            Update1(40);
             Dumbo.Update();
+            Update1(100);
+
+        }
+
+        public void Update1(int i)
+        {
+            if (InvokeRequired)
+            {
+                this.BeginInvoke(new Action<int>(Update1), new object[] { i });
+                return;
+            }
+            //double progress = (double)i;
+            //progress = (progress / 584) * 100;
+            //i = (int)progress;
+            progressBar1.Value = i;
         }
     }
 }

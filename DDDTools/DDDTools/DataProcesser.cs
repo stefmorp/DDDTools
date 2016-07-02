@@ -26,7 +26,7 @@ namespace DDDTools
                 // get the first worksheet in the workbook
                 ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
 
-                
+
                 for (int row = 1; row <= 584; row++)
                 {
 
@@ -34,11 +34,12 @@ namespace DDDTools
                         worksheet.Cell(row, 5).Value, worksheet.Cell(row, 6).Value, worksheet.Cell(row, 7).Value, worksheet.Cell(row, 8).Value,
                         worksheet.Cell(row, 9).Value, worksheet.Cell(row, 10).Value, worksheet.Cell(row, 11).Value, worksheet.Cell(row, 12).Value, worksheet.Cell(row, 13).Value);
 
+                }
                     //for (int col = 1; col < 13; col++)
                     //{
                     // Console.WriteLine("Cell({0},{1}).Value={2}", row, col, worksheet.Cell(row, col).Value);
                     //}
-                }
+                
 
 
             } // the using statement calls Dispose() which closes the package.

@@ -22,7 +22,7 @@ namespace DDDTools
 
             
 
-            Dumbo.Update();
+            // Dumbo.Update();
 
             int lastnumber = Int32.Parse(Dumbo.getLastNumber());
             string numberstring;

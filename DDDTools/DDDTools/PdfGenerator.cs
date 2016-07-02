@@ -77,7 +77,7 @@ namespace DDDTools
 
             cb.ShowTextAligned(1, surname + " " + name, 140, 630, 0);
             cb.ShowTextAligned(1, address, 130, 607, 0);
-            cb.ShowTextAligned(1, city, 90, 582, 0);
+            cb.ShowTextAligned(1, city, 100, 582, 0);
             cb.ShowTextAligned(1, fiscalcode, 110, 558, 0);
             cb.ShowTextAligned(1, IVA, 100, 540, 0);
             cb.ShowTextAligned(1, cap, 430, 608, 0);

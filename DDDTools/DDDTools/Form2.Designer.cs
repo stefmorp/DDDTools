@@ -35,7 +35,6 @@
             this.OpenXlsx = new System.Windows.Forms.Button();
             this.UpdateData = new System.Windows.Forms.Button();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // OpenPdf
@@ -96,26 +95,16 @@
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(93, 18);
+            this.progressBar1.Location = new System.Drawing.Point(15, 53);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(191, 23);
+            this.progressBar1.Size = new System.Drawing.Size(269, 32);
             this.progressBar1.TabIndex = 36;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(15, 54);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(194, 13);
-            this.label1.TabIndex = 37;
-            this.label1.Text = "when loading the application will freeze ";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(296, 338);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(296, 319);
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.UpdateData);
             this.Controls.Add(this.OpenXlsx);
@@ -124,7 +113,7 @@
             this.Controls.Add(this.label13);
             this.Controls.Add(this.id);
             this.Name = "Form2";
-            this.Text = "Form2";
+            this.Text = "DDDTools";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -139,6 +128,5 @@
         private System.Windows.Forms.Button OpenXlsx;
         private System.Windows.Forms.Button UpdateData;
         private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label1;
     }
 }
