@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("hellooooshaehaeherhaehaehaeh");
             this.storebutton = new System.Windows.Forms.Button();
             this.number = new System.Windows.Forms.TextBox();
             this.year = new System.Windows.Forms.TextBox();
@@ -59,20 +58,6 @@
             this.receiptbutton = new System.Windows.Forms.Button();
             this.OpenPdf = new System.Windows.Forms.Button();
             this.OpenXlsx = new System.Windows.Forms.Button();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader9 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader10 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader11 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader12 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader13 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // storebutton
@@ -323,94 +308,11 @@
             this.OpenXlsx.UseVisualStyleBackColor = true;
             this.OpenXlsx.Click += new System.EventHandler(this.OpenXlsx_Click);
             // 
-            // listView1
-            // 
-            this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1,
-            this.columnHeader2,
-            this.columnHeader3,
-            this.columnHeader4,
-            this.columnHeader5,
-            this.columnHeader6,
-            this.columnHeader7,
-            this.columnHeader8,
-            this.columnHeader9,
-            this.columnHeader10,
-            this.columnHeader11,
-            this.columnHeader12,
-            this.columnHeader13});
-            this.listView1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.listView1.GridLines = true;
-            listViewItem1.StateImageIndex = 0;
-            this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem1});
-            this.listView1.Location = new System.Drawing.Point(275, 163);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(962, 463);
-            this.listView1.TabIndex = 31;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Number";
-            this.columnHeader1.Width = 77;
-            // 
-            // columnHeader2
-            // 
-            this.columnHeader2.Text = "Year";
-            // 
-            // columnHeader3
-            // 
-            this.columnHeader3.Text = "Surname";
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Name";
-            // 
-            // columnHeader5
-            // 
-            this.columnHeader5.Text = "Address";
-            // 
-            // columnHeader6
-            // 
-            this.columnHeader6.Text = "CAP";
-            // 
-            // columnHeader7
-            // 
-            this.columnHeader7.Text = "City";
-            // 
-            // columnHeader8
-            // 
-            this.columnHeader8.Text = "Province";
-            // 
-            // columnHeader9
-            // 
-            this.columnHeader9.Text = "Fiscal code";
-            // 
-            // columnHeader10
-            // 
-            this.columnHeader10.Text = "IVA";
-            // 
-            // columnHeader11
-            // 
-            this.columnHeader11.Text = "Amount";
-            // 
-            // columnHeader12
-            // 
-            this.columnHeader12.Text = "Date";
-            // 
-            // columnHeader13
-            // 
-            this.columnHeader13.Width = 75;
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1249, 638);
-            this.Controls.Add(this.listView1);
+            this.ClientSize = new System.Drawing.Size(756, 370);
             this.Controls.Add(this.OpenXlsx);
             this.Controls.Add(this.OpenPdf);
             this.Controls.Add(this.receiptbutton);
@@ -481,20 +383,6 @@
         private System.Windows.Forms.Button receiptbutton;
         private System.Windows.Forms.Button OpenPdf;
         private System.Windows.Forms.Button OpenXlsx;
-        private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader columnHeader1;
-        private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.ColumnHeader columnHeader3;
-        private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.ColumnHeader columnHeader6;
-        private System.Windows.Forms.ColumnHeader columnHeader7;
-        private System.Windows.Forms.ColumnHeader columnHeader8;
-        private System.Windows.Forms.ColumnHeader columnHeader9;
-        private System.Windows.Forms.ColumnHeader columnHeader10;
-        private System.Windows.Forms.ColumnHeader columnHeader11;
-        private System.Windows.Forms.ColumnHeader columnHeader12;
-        private System.Windows.Forms.ColumnHeader columnHeader13;
     }
 }
 

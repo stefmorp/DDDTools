@@ -26,7 +26,7 @@ namespace DDDTools
                 // get the first worksheet in the workbook
                 ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
 
-                // output the data in column 1
+                
                 for (int row = 1; row <= 584; row++)
                 {
 
