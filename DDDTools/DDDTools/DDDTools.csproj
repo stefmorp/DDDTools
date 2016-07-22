@@ -79,6 +79,7 @@
     <Compile Include="LoadingScreen.Designer.cs">
       <DependentUpon>LoadingScreen.cs</DependentUpon>
     </Compile>
+    <Compile Include="NumberToWords.cs" />
     <Compile Include="PdfGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

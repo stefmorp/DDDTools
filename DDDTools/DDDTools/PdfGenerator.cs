@@ -74,6 +74,9 @@ namespace DDDTools
             //        cb.ShowTextAligned(1, i.ToString() + "/" + j.ToString(), i, j, 0);
             //    }
             //}
+            NumberToWords words = new NumberToWords(Int32.Parse(amount));
+            string amountinwords = words.GetString();
+            Console.WriteLine(amountinwords);
 
             cb.ShowTextAligned(1, surname + " " + name, 140, 630, 0);
             cb.ShowTextAligned(1, address, 130, 607, 0);
@@ -83,7 +86,7 @@ namespace DDDTools
             cb.ShowTextAligned(1, cap, 430, 608, 0);
             cb.ShowTextAligned(1, province, 450, 582, 0);
             cb.ShowTextAligned(1, amount, 120, 405, 0);
-            cb.ShowTextAligned(1, "millemilamilionidipatate", 2804, 405, 0);
+            cb.ShowTextAligned(1, amountinwords, 300, 405, 0);
             cb.ShowTextAligned(1, "Ricevuta n'" + number + " del " + date , 150, 350, 0);
 
 
