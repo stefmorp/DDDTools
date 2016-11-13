@@ -40,7 +40,7 @@ namespace DDDTools
 
         public void FillTemplate(string path, string number, string year, string name, string surname, string address, string cap, string city, string province, string fiscalcode, string IVA, string amount, string date)
         {
-            string oldFile = @"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\template.pdf";
+            string oldFile = @"..\..\data\template.pdf";
             string newFile = path;
 
             // open the reader
@@ -57,37 +57,29 @@ namespace DDDTools
             PdfContentByte canvas = writer.DirectContent;
 
             // select the font properties
-            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+            BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             canvas.SetColorFill(BaseColor.DARK_GRAY);
             canvas.SetFontAndSize(bf, 10);
 
             // write the text in the pdf content
             canvas.BeginText();
 
-            // testing cooridinates
-            //string text = "Some random blablablabla...";
-            // put the alignment and coordinates here
-            //for(int i = 0; i < 1000; i = i + 50)
-            //{
-            //    for(int j = 0; j < 1000; j = j + 50)
-            //    {
-            //        canvas.ShowTextAligned(1, i.ToString() + "/" + j.ToString(), i, j, 0);
-            //    }
-            //}
             NumberToWords words = new NumberToWords(Int32.Parse(amount));
             string amountinwords = words.GetString();
             Console.WriteLine(amountinwords);
 
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, surname + " " + name, 105, 630, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, address, 105, 607, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, city, 70, 582, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, fiscalcode, 70, 559, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, IVA, 70, 535, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, surname + " " + name, 100, 630, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, address, 100, 607, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, city, 100, 582, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, fiscalcode, 100, 559, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, IVA, 100, 533, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, cap, 420, 607, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, province, 448, 581, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, province, 430, 581, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, amount, 115, 405, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, amountinwords, 250, 405, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, "Ricevuta n'" + number + " del " + date , 150, 349, 0);
+            double d = double.Parse(date);
+            DateTime conv = DateTime.FromOADate(d);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, "Ricevuta n'" + number + " del " + conv.ToShortDateString(), 34, 349, 0);
 
 
 

@@ -19,6 +19,8 @@ namespace DDDTools
 
 
         DataProcesser Dumbo = new DataProcesser();
+        private String datatablePath = "" ;
+        private String pdfPath = "";
 
         public Form2()
         {
@@ -47,14 +49,14 @@ namespace DDDTools
             {
 
 
-                String path = SD.FileName;
+                pdfPath = SD.FileName;
 
-                Console.WriteLine(path);
+                Console.WriteLine(pdfPath);
 
                 //String path = @"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\receipt.pdf";
 
 
-                pdf.FillTemplate(path, Dumbo.Get()[this.id.Text][0], Dumbo.Get()[this.id.Text][1], Dumbo.Get()[this.id.Text][2], Dumbo.Get()[this.id.Text][3], Dumbo.Get()[this.id.Text][4], Dumbo.Get()[this.id.Text][5],
+                pdf.FillTemplate(pdfPath, Dumbo.Get()[this.id.Text][0], Dumbo.Get()[this.id.Text][1], Dumbo.Get()[this.id.Text][2], Dumbo.Get()[this.id.Text][3], Dumbo.Get()[this.id.Text][4], Dumbo.Get()[this.id.Text][5],
                    Dumbo.Get()[this.id.Text][6], Dumbo.Get()[this.id.Text][7], Dumbo.Get()[this.id.Text][8], Dumbo.Get()[this.id.Text][9], Dumbo.Get()[this.id.Text][10], Dumbo.Get()[this.id.Text][11]);
 
                 Console.WriteLine("Created Pdf");
@@ -64,16 +66,9 @@ namespace DDDTools
 
         private void OpenPdf_Click(object sender, EventArgs e)
         {
-            var OD = new System.Windows.Forms.OpenFileDialog();
-
-            if (OD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (datatablePath != "")
             {
-
-
-                String path = OD.FileName;
-
-                System.Diagnostics.Process.Start(path);
-
+                System.Diagnostics.Process.Start(pdfPath);
             }
 
             
@@ -81,7 +76,11 @@ namespace DDDTools
 
         private void OpenXlsx_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start(@"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\datatable.xlsx");
+            if(datatablePath != "")
+            {
+                System.Diagnostics.Process.Start(datatablePath);
+            }
+            
         }
 
         private void UpdateData_Click(object sender, EventArgs e)
@@ -91,11 +90,11 @@ namespace DDDTools
             if (OD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
 
-                String path = OD.FileName;
+                datatablePath = OD.FileName;
 
 
                 //Thread thread = new Thread(DumboUpdate(path));
-                Thread thread = new Thread(() => DumboUpdate(path));
+                Thread thread = new Thread(() => DumboUpdate(datatablePath));
                 thread.IsBackground = true;
                 thread.Start();
                 // Dumbo.Update();
