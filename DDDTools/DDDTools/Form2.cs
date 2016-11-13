@@ -39,7 +39,8 @@ namespace DDDTools
             //}
 
             var SD = new System.Windows.Forms.SaveFileDialog();
-
+            SD.DefaultExt = "pdf";
+            SD.AddExtension = true;
             //openFileDialog1.InitialDirectory = "c:\\";
             //openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             //openFileDialog1.FilterIndex = 2;

@@ -35,13 +35,13 @@ namespace DDDTools
                 // get the first worksheet in the workbook
                 ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
 
-
-                for (int row = 1; !(string.IsNullOrEmpty(worksheet.Cell(row, 1).Value)); row++)
+                // row 4 is for the headers of the xlsx che papa ha messo
+                for (int row = 4; !(string.IsNullOrEmpty(worksheet.Cell(row, 1).Value)); row++)
                 {
 
-                    Store(worksheet.Cell(row, 1).Value, worksheet.Cell(row, 2).Value, worksheet.Cell(row, 3).Value, worksheet.Cell(row, 4).Value,
-                        worksheet.Cell(row, 5).Value, worksheet.Cell(row, 6).Value, worksheet.Cell(row, 7).Value, worksheet.Cell(row, 8).Value,
-                        worksheet.Cell(row, 9).Value, worksheet.Cell(row, 10).Value, worksheet.Cell(row, 11).Value, worksheet.Cell(row, 12).Value, worksheet.Cell(row, 13).Value);
+                    Store(row.ToString(), worksheet.Cell(row, 1).Value, worksheet.Cell(row, 2).Value, worksheet.Cell(row, 3).Value,
+                        worksheet.Cell(row, 4).Value, worksheet.Cell(row, 5).Value, worksheet.Cell(row, 6).Value, worksheet.Cell(row, 7).Value,
+                        worksheet.Cell(row, 8).Value, worksheet.Cell(row, 9).Value, worksheet.Cell(row, 10).Value, worksheet.Cell(row, 11).Value, worksheet.Cell(row, 12).Value);
 
                 }
                     //for (int col = 1; col < 13; col++)

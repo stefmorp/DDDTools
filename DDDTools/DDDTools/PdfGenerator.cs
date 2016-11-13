@@ -40,7 +40,8 @@ namespace DDDTools
 
         public void FillTemplate(string path, string number, string year, string name, string surname, string address, string cap, string city, string province, string fiscalcode, string IVA, string amount, string date)
         {
-            string oldFile = @"..\..\data\template.pdf";
+            //string oldFile = @"..\..\data\template.pdf";
+            string oldFile = @".\template.pdf";
             string newFile = path;
 
             // open the reader
@@ -64,16 +65,24 @@ namespace DDDTools
             // write the text in the pdf content
             canvas.BeginText();
 
+            Console.WriteLine("number testing");
             decimal decimal_amount = Decimal.Parse(amount);
-            
+            Console.WriteLine(amount);
+            Console.WriteLine(decimal_amount);
+
 
             int val = Convert.ToInt32(Math.Floor(decimal_amount));
+            Console.WriteLine("val " + val);
 
-            int decimal_part = (int)((decimal_amount - (int)decimal.Truncate(decimal_amount)) * 100);
+            string final_amount = decimal_amount.ToString("F");
+            string decimal_part = final_amount.Substring(final_amount.IndexOf(',') + 1);
+
+            Console.WriteLine("finalamount " + final_amount);
+            Console.WriteLine("decimalpart " + decimal_part);
 
 
             NumberToWords words = new NumberToWords(val);
-            string amountinwords = words.GetString(decimal_part.ToString());
+            string amountinwords = words.GetString(decimal_part);
             Console.WriteLine(amountinwords);
 
             canvas.ShowTextAligned(Element.ALIGN_LEFT, surname + " " + name, 100, 630, 0);
@@ -83,11 +92,11 @@ namespace DDDTools
             canvas.ShowTextAligned(Element.ALIGN_LEFT, IVA, 100, 533, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, cap, 420, 607, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, province, 435, 581, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, decimal_amount.ToString("F"), 115, 405, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, final_amount, 115, 405, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, amountinwords, 250, 405, 0);
             double d = double.Parse(date);
             DateTime conv = DateTime.FromOADate(d);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, "Ricevuta n'" + number + " del " + conv.ToShortDateString(), 34, 349, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, "Ricevuta n° " + number + " del " + conv.ToShortDateString(), 34, 349, 0);
 
 
 
