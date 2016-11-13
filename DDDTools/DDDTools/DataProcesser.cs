@@ -36,7 +36,7 @@ namespace DDDTools
                 ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
 
 
-                for (int row = 1; row <= 584; row++)
+                for (int row = 1; !(string.IsNullOrEmpty(worksheet.Cell(row, 1).Value)); row++)
                 {
 
                     Store(worksheet.Cell(row, 1).Value, worksheet.Cell(row, 2).Value, worksheet.Cell(row, 3).Value, worksheet.Cell(row, 4).Value,

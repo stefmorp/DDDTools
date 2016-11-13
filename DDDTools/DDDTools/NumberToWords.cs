@@ -147,7 +147,7 @@ namespace DDDTools
 
         }
 
-        public string GetString()
+        public string GetString(string decimal_part)
         {
             string result = "";
 
@@ -193,7 +193,7 @@ namespace DDDTools
                     break;
             }
 
-            return result;
+            return result + " / " + decimal_part;
         }
 
 

@@ -59,13 +59,21 @@ namespace DDDTools
             // select the font properties
             BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA_BOLD, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
             canvas.SetColorFill(BaseColor.DARK_GRAY);
-            canvas.SetFontAndSize(bf, 10);
+            canvas.SetFontAndSize(bf, 11);
 
             // write the text in the pdf content
             canvas.BeginText();
 
-            NumberToWords words = new NumberToWords(Int32.Parse(amount));
-            string amountinwords = words.GetString();
+            decimal decimal_amount = Decimal.Parse(amount);
+            
+
+            int val = Convert.ToInt32(Math.Floor(decimal_amount));
+
+            int decimal_part = (int)((decimal_amount - (int)decimal.Truncate(decimal_amount)) * 100);
+
+
+            NumberToWords words = new NumberToWords(val);
+            string amountinwords = words.GetString(decimal_part.ToString());
             Console.WriteLine(amountinwords);
 
             canvas.ShowTextAligned(Element.ALIGN_LEFT, surname + " " + name, 100, 630, 0);
@@ -74,8 +82,8 @@ namespace DDDTools
             canvas.ShowTextAligned(Element.ALIGN_LEFT, fiscalcode, 100, 559, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, IVA, 100, 533, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, cap, 420, 607, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, province, 430, 581, 0);
-            canvas.ShowTextAligned(Element.ALIGN_LEFT, amount, 115, 405, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, province, 435, 581, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, decimal_amount.ToString("F"), 115, 405, 0);
             canvas.ShowTextAligned(Element.ALIGN_LEFT, amountinwords, 250, 405, 0);
             double d = double.Parse(date);
             DateTime conv = DateTime.FromOADate(d);
