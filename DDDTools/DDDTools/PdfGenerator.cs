@@ -38,10 +38,10 @@ namespace DDDTools
 
         }
 
-        public void FillTemplate(string number, string year, string name, string surname, string address, string cap, string city, string province, string fiscalcode, string IVA, string amount, string date)
+        public void FillTemplate(string path, string number, string year, string name, string surname, string address, string cap, string city, string province, string fiscalcode, string IVA, string amount, string date)
         {
-            string oldFile = @"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\template.pdf";
-            string newFile = @"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\receipt.pdf";
+            string oldFile = @"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\template.pdf";
+            string newFile = path;
 
             // open the reader
             PdfReader reader = new PdfReader(oldFile);
@@ -54,15 +54,15 @@ namespace DDDTools
             document.Open();
 
             // the pdf content
-            PdfContentByte cb = writer.DirectContent;
+            PdfContentByte canvas = writer.DirectContent;
 
             // select the font properties
             BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
-            cb.SetColorFill(BaseColor.DARK_GRAY);
-            cb.SetFontAndSize(bf, 10);
+            canvas.SetColorFill(BaseColor.DARK_GRAY);
+            canvas.SetFontAndSize(bf, 10);
 
             // write the text in the pdf content
-            cb.BeginText();
+            canvas.BeginText();
 
             // testing cooridinates
             //string text = "Some random blablablabla...";
@@ -71,31 +71,31 @@ namespace DDDTools
             //{
             //    for(int j = 0; j < 1000; j = j + 50)
             //    {
-            //        cb.ShowTextAligned(1, i.ToString() + "/" + j.ToString(), i, j, 0);
+            //        canvas.ShowTextAligned(1, i.ToString() + "/" + j.ToString(), i, j, 0);
             //    }
             //}
             NumberToWords words = new NumberToWords(Int32.Parse(amount));
             string amountinwords = words.GetString();
             Console.WriteLine(amountinwords);
 
-            cb.ShowTextAligned(1, surname + " " + name, 140, 630, 0);
-            cb.ShowTextAligned(1, address, 130, 607, 0);
-            cb.ShowTextAligned(1, city, 100, 582, 0);
-            cb.ShowTextAligned(1, fiscalcode, 110, 558, 0);
-            cb.ShowTextAligned(1, IVA, 100, 540, 0);
-            cb.ShowTextAligned(1, cap, 430, 608, 0);
-            cb.ShowTextAligned(1, province, 450, 582, 0);
-            cb.ShowTextAligned(1, amount, 120, 405, 0);
-            cb.ShowTextAligned(1, amountinwords, 300, 405, 0);
-            cb.ShowTextAligned(1, "Ricevuta n'" + number + " del " + date , 150, 350, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, surname + " " + name, 105, 630, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, address, 105, 607, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, city, 70, 582, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, fiscalcode, 70, 559, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, IVA, 70, 535, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, cap, 420, 607, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, province, 448, 581, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, amount, 115, 405, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, amountinwords, 250, 405, 0);
+            canvas.ShowTextAligned(Element.ALIGN_LEFT, "Ricevuta n'" + number + " del " + date , 150, 349, 0);
 
 
 
-            cb.EndText();
+            canvas.EndText();
 
             // create the new page and add it to the pdf
             PdfImportedPage page = writer.GetImportedPage(reader, 1);
-            cb.AddTemplate(page, 0, 0);
+            canvas.AddTemplate(page, 0, 0);
 
             // close the streams and voilá the file should be changed :)
             document.Close();

@@ -15,13 +15,22 @@ namespace DDDTools
         private string lastmodified = "22/06/2016";
         private int lastID = 0;
         private string lastnumber = "0000";
-        FileInfo datatable = new FileInfo(@"C:\Users\Loren\Source\Repos\DDDTools\DDDTools\DDDTools\data\datatable.xlsx");
+        //private string _path;
+        private FileInfo datatable;
+
+
+        //public DataProcesser(string path)
+        //{
+        //    _path = path;
+        //    FileInfo datatable = new FileInfo(_path);
+        //}
 
 
 
-        public void Update()
+
+        public void Update(String path)
         {
-            using (ExcelPackage xlPackage = new ExcelPackage(datatable))
+            using (ExcelPackage xlPackage = new ExcelPackage(datatable = new FileInfo(path))) 
             {
                 // get the first worksheet in the workbook
                 ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
@@ -129,5 +138,6 @@ namespace DDDTools
         {
             return lastnumber;
         }
+
     }
 }
