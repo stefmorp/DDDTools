@@ -126,5 +126,44 @@ namespace DDDTools
             //i = (int)progress;
             progressBar1.Value = i;
         }
+
+        private void receiptbutton2_Click(object sender, EventArgs e)
+        {
+            PdfGenerator pdf = new PdfGenerator();
+
+            //var FD = new System.Windows.Forms.OpenFileDialog();
+            //if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            //{
+            //    string fileToOpen = FD.FileName;
+            //    Console.WriteLine(fileToOpen);
+            //}
+
+            var SD = new System.Windows.Forms.SaveFileDialog();
+            SD.DefaultExt = "pdf";
+            SD.AddExtension = true;
+            //openFileDialog1.InitialDirectory = "c:\\";
+            //openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+            //openFileDialog1.FilterIndex = 2;
+            SD.RestoreDirectory = true;
+
+            if (SD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+
+
+                pdfPath = SD.FileName;
+
+                Console.WriteLine(pdfPath);
+
+                //String path = @"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\receipt.pdf";
+
+
+                pdf.FillTemplate2(pdfPath, Dumbo.Get()[this.id.Text][0], Dumbo.Get()[this.id.Text][1], Dumbo.Get()[this.id.Text][2], Dumbo.Get()[this.id.Text][3], Dumbo.Get()[this.id.Text][4], Dumbo.Get()[this.id.Text][5],
+                   Dumbo.Get()[this.id.Text][6], Dumbo.Get()[this.id.Text][7], Dumbo.Get()[this.id.Text][8], Dumbo.Get()[this.id.Text][9], Dumbo.Get()[this.id.Text][10], Dumbo.Get()[this.id.Text][11]);
+
+                Console.WriteLine("Created Pdf");
+
+            }
+
+        }
     }
 }
