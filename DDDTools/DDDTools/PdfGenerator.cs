@@ -65,9 +65,20 @@ namespace DDDTools
             // write the text in the pdf content
             canvas.BeginText();
 
-            Console.WriteLine("number testing");
+            Console.WriteLine("number " + number);
+            Console.WriteLine("year " + year);
+            Console.WriteLine("name " + name);
+            Console.WriteLine("surname " + surname);
+            Console.WriteLine("address " + address);
+            Console.WriteLine("cap " + cap);
+            Console.WriteLine("city " + city);
+            Console.WriteLine("province " + province);
+            Console.WriteLine("fiscalcode " + fiscalcode);
+            Console.WriteLine("IVA " + IVA);
+            Console.WriteLine("amount " + amount);
+            Console.WriteLine("date " + date);
             decimal decimal_amount = Decimal.Parse(amount);
-            Console.WriteLine(amount);
+            
             Console.WriteLine(decimal_amount);
 
 
@@ -75,7 +86,19 @@ namespace DDDTools
             Console.WriteLine("val " + val);
 
             string final_amount = decimal_amount.ToString("F");
-            string decimal_part = final_amount.Substring(final_amount.IndexOf(',') + 1);
+            decimal ip = (int)Math.Truncate(decimal_amount);
+            decimal dp = decimal_amount - ip;
+            string dstring = dp.ToString();
+            Console.WriteLine("dstring" + dstring);
+            string decimal_part;
+            if (dstring.Length > 1)
+            {
+                decimal_part = dstring.Substring(2, dstring.Length - 2);
+            }else
+            {
+                decimal_part = "00";
+            }
+            //string decimal_part = final_amount.Substring(final_amount.IndexOf(',') + 1);
 
             Console.WriteLine("finalamount " + final_amount);
             Console.WriteLine("decimalpart " + decimal_part);
@@ -139,9 +162,20 @@ namespace DDDTools
             // write the text in the pdf content
             canvas.BeginText();
 
-            Console.WriteLine("number testing");
+            Console.WriteLine("number " + number);
+            Console.WriteLine("year " + year);
+            Console.WriteLine("name " + name);
+            Console.WriteLine("surname " + surname);
+            Console.WriteLine("address " + address);
+            Console.WriteLine("cap " + cap);
+            Console.WriteLine("city " + city);
+            Console.WriteLine("province " + province);
+            Console.WriteLine("fiscalcode " + fiscalcode);
+            Console.WriteLine("IVA " + IVA);
+            Console.WriteLine("amount " + amount);
+            Console.WriteLine("date " + date);
             decimal decimal_amount = Decimal.Parse(amount);
-            Console.WriteLine(amount);
+
             Console.WriteLine(decimal_amount);
 
 
@@ -149,7 +183,20 @@ namespace DDDTools
             Console.WriteLine("val " + val);
 
             string final_amount = decimal_amount.ToString("F");
-            string decimal_part = final_amount.Substring(final_amount.IndexOf(',') + 1);
+            decimal ip = (int)Math.Truncate(decimal_amount);
+            decimal dp = decimal_amount - ip;
+            string dstring = dp.ToString();
+            Console.WriteLine("dstring" + dstring);
+            string decimal_part;
+            if (dstring.Length > 1)
+            {
+                decimal_part = dstring.Substring(2, dstring.Length - 2);
+            }
+            else
+            {
+                decimal_part = "00";
+            }
+            //string decimal_part = final_amount.Substring(final_amount.IndexOf(',') + 1);
 
             Console.WriteLine("finalamount " + final_amount);
             Console.WriteLine("decimalpart " + decimal_part);
