@@ -20,23 +20,31 @@
 
 ## Excel File Format
 
-The Excel file should have the following structure (starting from row 4):
+The Excel file should have the following structure:
+- **Rows 1-3**: Header rows (labels/metadata, not data)
+- **Row 4 onwards**: Data rows containing transaction records
+
+**Important**: The **ID** is not stored in the Excel file. The ID is simply the **row number** (e.g., row 4 = ID "4", row 5 = ID "5", etc.). This means:
+- When you enter an ID in the application, you're specifying which row to read/write
+- The ID corresponds directly to the Excel row number
+- No ID column exists in the Excel file - it's derived from the row position
 
 | Column | Field | Description |
 |--------|-------|-------------|
-| 1 | ID | Row number (auto-generated) |
-| 2 | Number | Receipt number |
-| 3 | Year | Transaction year |
-| 4 | Name | Customer first name |
-| 5 | Surname | Customer last name |
-| 6 | Address | Street address |
-| 7 | CAP | Postal code |
-| 8 | City | City name |
-| 9 | Province | Province abbreviation |
-| 10 | Fiscal Code | Codice fiscale |
-| 11 | IVA | VAT number (Partita IVA) |
-| 12 | Amount | Transaction amount in euros |
-| 13 | Date | Transaction date |
+| 1 | Number | Receipt number |
+| 2 | Year | Transaction year |
+| 3 | Name | Customer first name |
+| 4 | Surname | Customer last name |
+| 5 | Address | Street address |
+| 6 | CAP | Postal code |
+| 7 | City | City name |
+| 8 | Province | Province abbreviation |
+| 9 | Fiscal Code | Codice fiscale |
+| 10 | IVA | VAT number (Partita IVA) |
+| 11 | Amount | Transaction amount in euros |
+| 12 | Date | Transaction date |
+
+**Note**: The ID used in the application is the Excel row number. For example, if your data starts at row 4, the first record has ID "4", the second has ID "5", etc.
 
 ## How to Use
 
@@ -47,8 +55,9 @@ The Excel file should have the following structure (starting from row 4):
 4. Wait for the progress bar to complete (the application will scan the file)
 
 ### Step 2: Generate Receipt
-1. Enter the **ID** (row number) of the transaction you want to generate a receipt for
-   - Tip: The last invoice ID is typically the highest row number in your Excel file
+1. Enter the **ID** (which is the Excel row number) of the transaction you want to generate a receipt for
+   - **Important**: The ID is the row number in Excel. Since data starts at row 4, the first record has ID "4", second has ID "5", etc.
+   - Tip: The last invoice ID is typically the highest row number in your Excel file (e.g., if your last data row is 100, the ID is "100")
 2. Click either:
    - **"Genera ricevuta (BANCA)"** - For bank template
    - **"Genera ricevuta (POSTA)"** - For post office template
@@ -81,6 +90,12 @@ Version 2.0 introduces significant performance improvements, especially for larg
 - Records loaded only when needed via `GetById()` method
 - Improved error handling with user-friendly messages
 
+#### 🔒 **Thread Safety**
+- **Before**: Dictionary access was not synchronized, causing potential race conditions when loading Excel files on a background thread while generating receipts on the UI thread
+- **After**: All dictionary and metadata access is protected with locks, ensuring thread-safe operations
+- **Impact**: Prevents `InvalidOperationException` and crashes when users generate receipts while Excel files are being loaded in the background
+- **Technical**: Uses `lock` statements to synchronize access to the `database` dictionary and metadata fields (`lastID`, `lastnumber`, `totalRows`)
+
 #### 📈 **Performance Comparison**
 
 | Scenario | Version 1.0 | Version 2.0 | Improvement |
@@ -97,6 +112,7 @@ The optimization uses:
 - **LRU-style caching**: Most recently accessed records stay in memory
 - **Efficient Excel scanning**: Uses EPPlus Dimension property and backward iteration
 - **On-demand record loading**: `GetRecord()` method loads individual records from Excel when not in cache
+- **Thread synchronization**: All dictionary and metadata access protected with locks to prevent race conditions between background Excel loading and UI thread operations
 
 ## Project Structure
 
