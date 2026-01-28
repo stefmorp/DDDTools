@@ -50,7 +50,7 @@ namespace DDDTools
                     // Scan backwards to find the actual last non-empty row (more efficient)
                     for (int row = lastRow; row >= 4; row--)
                     {
-                        var cellValue = worksheet.Cell(row, 1).Value;
+                        var cellValue = worksheet.Cells[row, 1].Value;
                         if (cellValue != null && !string.IsNullOrEmpty(cellValue.ToString()))
                         {
                             lastRow = row;
@@ -64,11 +64,11 @@ namespace DDDTools
                 // Only load metadata from the last row
                 if (lastRow >= 4)
                 {
-                    var lastRowData = worksheet.Cell(lastRow, 1).Value;
+                    var lastRowData = worksheet.Cells[lastRow, 1].Value;
                     if (lastRowData != null)
                     {
                         lastID = lastRow;
-                        lastnumber = worksheet.Cell(lastRow, 2).Value?.ToString() ?? "0000";
+                        lastnumber = worksheet.Cells[lastRow, 1].Value?.ToString() ?? "0000";
                     }
                 }
                 
@@ -91,7 +91,7 @@ namespace DDDTools
                 
                 for (int row = startRow; row <= totalRows; row++)
                 {
-                    var cellValue = worksheet.Cell(row, 1).Value;
+                    var cellValue = worksheet.Cells[row, 1].Value;
                     if (cellValue != null && !string.IsNullOrEmpty(cellValue.ToString()))
                     {
                         LoadRecord(row, worksheet);
@@ -108,18 +108,18 @@ namespace DDDTools
             {
                 database.Add(id, new List<string> 
                 { 
-                    worksheet.Cell(row, 2).Value?.ToString() ?? "",  // number
-                    worksheet.Cell(row, 3).Value?.ToString() ?? "",  // year
-                    worksheet.Cell(row, 4).Value?.ToString() ?? "",  // name
-                    worksheet.Cell(row, 5).Value?.ToString() ?? "",  // surname
-                    worksheet.Cell(row, 6).Value?.ToString() ?? "",  // address
-                    worksheet.Cell(row, 7).Value?.ToString() ?? "",  // cap
-                    worksheet.Cell(row, 8).Value?.ToString() ?? "",  // city
-                    worksheet.Cell(row, 9).Value?.ToString() ?? "",  // province
-                    worksheet.Cell(row, 10).Value?.ToString() ?? "", // fiscalcode
-                    worksheet.Cell(row, 11).Value?.ToString() ?? "", // IVA
-                    worksheet.Cell(row, 12).Value?.ToString() ?? "", // amount
-                    worksheet.Cell(row, 13).Value?.ToString() ?? ""  // date
+                    worksheet.Cells[row, 1].Value?.ToString() ?? "",  // number
+                    worksheet.Cells[row, 2].Value?.ToString() ?? "",  // year
+                    worksheet.Cells[row, 3].Value?.ToString() ?? "",  // name
+                    worksheet.Cells[row, 4].Value?.ToString() ?? "",  // surname
+                    worksheet.Cells[row, 5].Value?.ToString() ?? "",  // address
+                    worksheet.Cells[row, 6].Value?.ToString() ?? "",  // cap
+                    worksheet.Cells[row, 7].Value?.ToString() ?? "",  // city
+                    worksheet.Cells[row, 8].Value?.ToString() ?? "",  // province
+                    worksheet.Cells[row, 9].Value?.ToString() ?? "",  // fiscalcode
+                    worksheet.Cells[row, 10].Value?.ToString() ?? "", // IVA
+                    worksheet.Cells[row, 11].Value?.ToString() ?? "", // amount
+                    worksheet.Cells[row, 12].Value?.ToString() ?? ""  // date
                 });
             }
         }
@@ -136,29 +136,68 @@ namespace DDDTools
             // Load from Excel if not in cache
             if (datatable != null && datatable.Exists)
             {
-                using (ExcelPackage xlPackage = new ExcelPackage(datatable))
+                try
                 {
-                    ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
                     int row = int.Parse(id);
-                    LoadRecord(row, worksheet);
                     
-                    // If cache is getting too large, remove oldest entries
-                    if (database.Count > CACHE_SIZE * 2)
+                    using (ExcelPackage xlPackage = new ExcelPackage(datatable))
                     {
-                        var keysToRemove = database.Keys
-                            .Select(k => int.Parse(k))
-                            .OrderBy(k => k)
-                            .Take(database.Count - CACHE_SIZE)
-                            .Select(k => k.ToString())
-                            .ToList();
+                        ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
+                        LoadRecord(row, worksheet);
                         
-                        foreach (var key in keysToRemove)
+                        // If cache is getting too large, remove oldest entries
+                        if (database.Count > CACHE_SIZE * 2)
                         {
-                            database.Remove(key);
+                            var keysToRemove = new List<string>();
+                            foreach (var key in database.Keys)
+                            {
+                                try
+                                {
+                                    int.Parse(key); // Valid key, keep for now
+                                }
+                                catch
+                                {
+                                    // Invalid key format, remove it
+                                    keysToRemove.Add(key);
+                                }
+                            }
+                            
+                            // Remove invalid keys first
+                            foreach (var key in keysToRemove)
+                            {
+                                database.Remove(key);
+                            }
+                            
+                            // If still too large, remove oldest numeric entries
+                            if (database.Count > CACHE_SIZE * 2)
+                            {
+                                var numericKeys = database.Keys
+                                    .Where(k => { try { int.Parse(k); return true; } catch { return false; } })
+                                    .Select(k => int.Parse(k))
+                                    .OrderBy(k => k)
+                                    .Take(database.Count - CACHE_SIZE)
+                                    .Select(k => k.ToString())
+                                    .ToList();
+                                
+                                foreach (var key in numericKeys)
+                                {
+                                    database.Remove(key);
+                                }
+                            }
                         }
+                        
+                        return database.ContainsKey(id) ? database[id] : null;
                     }
-                    
-                    return database.ContainsKey(id) ? database[id] : null;
+                }
+                catch (FormatException)
+                {
+                    // Invalid ID format - return null instead of crashing
+                    return null;
+                }
+                catch (OverflowException)
+                {
+                    // ID too large - return null instead of crashing
+                    return null;
                 }
             }
             
@@ -185,41 +224,54 @@ namespace DDDTools
         {
             if (datatable == null || !datatable.Exists) return;
 
-            using (ExcelPackage xlPackage = new ExcelPackage(datatable))
+            try
             {
-                ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
-                
                 int row = int.Parse(id);
-
-                worksheet.Cell(row, 1).Value = id;      
-                worksheet.Cell(row, 2).Value = number;
-                worksheet.Cell(row, 3).Value = year;
-                worksheet.Cell(row, 4).Value = name;
-                worksheet.Cell(row, 5).Value = surname;
-                worksheet.Cell(row, 6).Value = address;
-                worksheet.Cell(row, 7).Value = cap;
-                worksheet.Cell(row, 8).Value = city;
-                worksheet.Cell(row, 9).Value = province;
-                worksheet.Cell(row, 10).Value = fiscalcode;
-                worksheet.Cell(row, 11).Value = IVA;
-                worksheet.Cell(row, 12).Value = amount;
-                worksheet.Cell(row, 13).Value = date;
                 
-                // Update cache if this record is cached
-                if (database.ContainsKey(id))
+                using (ExcelPackage xlPackage = new ExcelPackage(datatable))
                 {
-                    database[id] = new List<string> { number, year, name, surname, address, cap, city, province, fiscalcode, IVA, amount, date };
-                }
-                
-                // Update metadata
-                if (row > lastID)
-                {
-                    lastID = row;
-                    totalRows = row;
-                    lastnumber = number;
-                }
+                    ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
 
-                xlPackage.Save();
+                    worksheet.Cells[row, 1].Value = id;      
+                    worksheet.Cells[row, 2].Value = number;
+                    worksheet.Cells[row, 3].Value = year;
+                    worksheet.Cells[row, 4].Value = name;
+                    worksheet.Cells[row, 5].Value = surname;
+                    worksheet.Cells[row, 6].Value = address;
+                    worksheet.Cells[row, 7].Value = cap;
+                    worksheet.Cells[row, 8].Value = city;
+                    worksheet.Cells[row, 9].Value = province;
+                    worksheet.Cells[row, 10].Value = fiscalcode;
+                    worksheet.Cells[row, 11].Value = IVA;
+                    worksheet.Cells[row, 12].Value = amount;
+                    worksheet.Cells[row, 13].Value = date;
+                    
+                    // Update cache if this record is cached
+                    if (database.ContainsKey(id))
+                    {
+                        database[id] = new List<string> { number, year, name, surname, address, cap, city, province, fiscalcode, IVA, amount, date };
+                    }
+                    
+                    // Update metadata
+                    if (row > lastID)
+                    {
+                        lastID = row;
+                        totalRows = row;
+                        lastnumber = number;
+                    }
+
+                    xlPackage.Save();
+                }
+            }
+            catch (FormatException)
+            {
+                // Invalid ID format - throw a more descriptive exception or log error
+                throw new ArgumentException($"Invalid ID format: '{id}'. ID must be a valid integer.", nameof(id));
+            }
+            catch (OverflowException)
+            {
+                // ID too large - throw a more descriptive exception
+                throw new ArgumentException($"ID value '{id}' is too large. ID must be within integer range.", nameof(id));
             }
         }
 
