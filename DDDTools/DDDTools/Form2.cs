@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -57,8 +57,17 @@ namespace DDDTools
                 //String path = @"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\receipt.pdf";
 
 
-                pdf.FillTemplate(pdfPath, Dumbo.Get()[this.id.Text][0], Dumbo.Get()[this.id.Text][1], Dumbo.Get()[this.id.Text][2], Dumbo.Get()[this.id.Text][3], Dumbo.Get()[this.id.Text][4], Dumbo.Get()[this.id.Text][5],
-                   Dumbo.Get()[this.id.Text][6], Dumbo.Get()[this.id.Text][7], Dumbo.Get()[this.id.Text][8], Dumbo.Get()[this.id.Text][9], Dumbo.Get()[this.id.Text][10], Dumbo.Get()[this.id.Text][11]);
+                var record = Dumbo.GetById(this.id.Text);
+                if (record != null && record.Count >= 12)
+                {
+                    pdf.FillTemplate(pdfPath, record[0], record[1], record[2], record[3], record[4], record[5],
+                       record[6], record[7], record[8], record[9], record[10], record[11]);
+                }
+                else
+                {
+                    MessageBox.Show("Record non trovato!", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 Console.WriteLine("Created Pdf");
 
@@ -157,8 +166,17 @@ namespace DDDTools
                 //String path = @"C:\Users\lorenzo\Documents\DDDTools\DDDTools\DDDTools\data\receipt.pdf";
 
 
-                pdf.FillTemplate2(pdfPath, Dumbo.Get()[this.id.Text][0], Dumbo.Get()[this.id.Text][1], Dumbo.Get()[this.id.Text][2], Dumbo.Get()[this.id.Text][3], Dumbo.Get()[this.id.Text][4], Dumbo.Get()[this.id.Text][5],
-                   Dumbo.Get()[this.id.Text][6], Dumbo.Get()[this.id.Text][7], Dumbo.Get()[this.id.Text][8], Dumbo.Get()[this.id.Text][9], Dumbo.Get()[this.id.Text][10], Dumbo.Get()[this.id.Text][11]);
+                var record = Dumbo.GetById(this.id.Text);
+                if (record != null && record.Count >= 12)
+                {
+                    pdf.FillTemplate2(pdfPath, record[0], record[1], record[2], record[3], record[4], record[5],
+                       record[6], record[7], record[8], record[9], record[10], record[11]);
+                }
+                else
+                {
+                    MessageBox.Show("Record non trovato!", "Errore", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
                 Console.WriteLine("Created Pdf");
 
