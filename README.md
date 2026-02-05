@@ -13,10 +13,20 @@
 
 ## Requirements
 
-- **.NET Framework 4.5.2** or higher
-- **Windows OS**
+- **.NET Framework 4.5.2** or higher (recommended: 4.7.2 or 4.8)
+  - **Windows 10 users**: .NET Framework 4.8 may need to be installed separately. Download from: https://dotnet.microsoft.com/download/dotnet-framework/net48
+  - **Windows 11 users**: .NET Framework 4.8 is pre-installed
+- **Windows OS** (Windows 7 SP1 or later)
 - **Excel files** (.xlsx format) with transaction data
 - **PDF templates**: `template-banca.pdf` and `template-posta.pdf` (must be in the application directory)
+
+### Troubleshooting Windows 10 Issues
+
+If the application flashes and closes immediately on Windows 10:
+1. **Install .NET Framework 4.8**: Download and install from [Microsoft's website](https://dotnet.microsoft.com/download/dotnet-framework/net48)
+2. **Check error messages**: The application now displays error dialogs if something goes wrong
+3. **Verify dependencies**: Ensure `EPPlus.dll` and `itextsharp.dll` are in the same folder as `DDDTools.exe`
+4. **Check Windows Event Viewer**: Look for application errors in Windows Logs → Application
 
 ## Excel File Format
 
