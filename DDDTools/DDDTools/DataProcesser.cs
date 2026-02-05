@@ -36,53 +36,79 @@ namespace DDDTools
 
         public void Update(String path)
         {
-            datatablePath = path;
-            datatable = new FileInfo(path);
-            
-            // Only scan to find the last row and metadata - don't load all data
-            using (ExcelPackage xlPackage = new ExcelPackage(datatable)) 
+            if (string.IsNullOrEmpty(path))
             {
-                ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
+                throw new ArgumentException("Path cannot be null or empty.", nameof(path));
+            }
+            
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Excel file not found: {path}", path);
+            }
+            
+            try
+            {
+                datatablePath = path;
+                datatable = new FileInfo(path);
                 
-                // Find the last row efficiently by scanning backwards
-                int lastRow = 4;
-                if (worksheet.Dimension != null)
+                // Only scan to find the last row and metadata - don't load all data
+                using (ExcelPackage xlPackage = new ExcelPackage(datatable)) 
                 {
-                    lastRow = worksheet.Dimension.End.Row;
-                    
-                    // Scan backwards to find the actual last non-empty row (more efficient)
-                    for (int row = lastRow; row >= 4; row--)
+                    if (xlPackage.Workbook.Worksheets.Count == 0)
                     {
-                        var cellValue = worksheet.Cells[row, 1].Value;
-                        if (cellValue != null && !string.IsNullOrEmpty(cellValue.ToString()))
-                        {
-                            lastRow = row;
-                            break;
-                        }
-                    }
-                }
-                
-                // Clear old cache and load only the last CACHE_SIZE records for quick access
-                // Thread-safe: lock to prevent race conditions with GetRecord/GetById
-                lock (_lockObject)
-                {
-                    // Update metadata atomically with cache operations
-                    totalRows = lastRow;
-                    
-                    // Only load metadata from the last row
-                    if (lastRow >= 4)
-                    {
-                        var lastRowData = worksheet.Cells[lastRow, 1].Value;
-                        if (lastRowData != null)
-                        {
-                            lastID = lastRow;
-                            lastnumber = worksheet.Cells[lastRow, 1].Value?.ToString() ?? "0000";
-                        }
+                        throw new InvalidOperationException("Excel file contains no worksheets.");
                     }
                     
-                    database.Clear();
-                    LoadLastRecords(CACHE_SIZE);
+                    ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
+                    
+                    // Find the last row efficiently by scanning backwards
+                    int lastRow = 4;
+                    if (worksheet.Dimension != null)
+                    {
+                        lastRow = worksheet.Dimension.End.Row;
+                        
+                        // Scan backwards to find the actual last non-empty row (more efficient)
+                        for (int row = lastRow; row >= 4; row--)
+                        {
+                            var cellValue = worksheet.Cells[row, 1].Value;
+                            if (cellValue != null && !string.IsNullOrEmpty(cellValue.ToString()))
+                            {
+                                lastRow = row;
+                                break;
+                            }
+                        }
+                    }
+                    
+                    // Clear old cache and load only the last CACHE_SIZE records for quick access
+                    // Thread-safe: lock to prevent race conditions with GetRecord/GetById
+                    lock (_lockObject)
+                    {
+                        // Update metadata atomically with cache operations
+                        totalRows = lastRow;
+                        
+                        // Only load metadata from the last row
+                        if (lastRow >= 4)
+                        {
+                            var lastRowData = worksheet.Cells[lastRow, 1].Value;
+                            if (lastRowData != null)
+                            {
+                                lastID = lastRow;
+                                lastnumber = worksheet.Cells[lastRow, 1].Value?.ToString() ?? "0000";
+                            }
+                        }
+                        
+                        database.Clear();
+                        LoadLastRecords(CACHE_SIZE);
+                    }
                 }
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                throw new UnauthorizedAccessException($"Access denied to Excel file: {path}. Make sure the file is not open in another application.", ex);
+            }
+            catch (IOException ex)
+            {
+                throw new IOException($"Error reading Excel file: {path}. The file may be corrupted or in use by another application.", ex);
             }
         }
         

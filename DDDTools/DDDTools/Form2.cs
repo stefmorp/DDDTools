@@ -117,10 +117,35 @@ namespace DDDTools
 
         private void DumboUpdate(String path)
         {
-            Update1(40);
-            Dumbo.Update(path);
-            Update1(100);
-
+            try
+            {
+                Update1(40);
+                Dumbo.Update(path);
+                Update1(100);
+            }
+            catch (Exception ex)
+            {
+                // Handle exceptions on background thread - show error on UI thread
+                if (InvokeRequired)
+                {
+                    this.BeginInvoke(new Action(() =>
+                    {
+                        MessageBox.Show(
+                            $"Error loading Excel file:\n\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}",
+                            "Excel Load Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                    }));
+                }
+                else
+                {
+                    MessageBox.Show(
+                        $"Error loading Excel file:\n\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}",
+                        "Excel Load Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
         }
 
         public void Update1(int i)
