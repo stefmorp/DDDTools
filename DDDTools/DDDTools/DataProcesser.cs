@@ -48,17 +48,24 @@ namespace DDDTools
             
             try
             {
+                LogMessage($"DataProcesser.Update: Starting, path={path}");
                 datatablePath = path;
                 datatable = new FileInfo(path);
                 
+                LogMessage($"DataProcesser.Update: FileInfo created, exists={datatable.Exists}");
+                
                 // Only scan to find the last row and metadata - don't load all data
-                using (ExcelPackage xlPackage = new ExcelPackage(datatable)) 
+                LogMessage("DataProcesser.Update: Creating ExcelPackage...");
+                using (ExcelPackage xlPackage = new ExcelPackage(datatable))
                 {
+                    LogMessage("DataProcesser.Update: ExcelPackage created successfully");
+                    
                     if (xlPackage.Workbook.Worksheets.Count == 0)
                     {
                         throw new InvalidOperationException("Excel file contains no worksheets.");
                     }
                     
+                    LogMessage($"DataProcesser.Update: Found {xlPackage.Workbook.Worksheets.Count} worksheet(s)");
                     ExcelWorksheet worksheet = xlPackage.Workbook.Worksheets[1];
                     
                     // Find the last row efficiently by scanning backwards
@@ -104,12 +111,41 @@ namespace DDDTools
             }
             catch (UnauthorizedAccessException ex)
             {
+                LogError("DataProcesser.Update - UnauthorizedAccess", ex);
                 throw new UnauthorizedAccessException($"Access denied to Excel file: {path}. Make sure the file is not open in another application.", ex);
             }
             catch (IOException ex)
             {
+                LogError("DataProcesser.Update - IOException", ex);
                 throw new IOException($"Error reading Excel file: {path}. The file may be corrupted or in use by another application.", ex);
             }
+            catch (Exception ex)
+            {
+                LogError("DataProcesser.Update - General Exception", ex);
+                throw;
+            }
+        }
+
+        private void LogMessage(string message)
+        {
+            try
+            {
+                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DDDTools.log");
+                string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [INFO] {message}\n";
+                File.AppendAllText(logPath, logEntry);
+            }
+            catch { }
+        }
+
+        private void LogError(string source, Exception ex)
+        {
+            try
+            {
+                string logPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "DDDTools.log");
+                string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [ERROR] [{source}] {ex.GetType().Name}: {ex.Message}\nStack Trace:\n{ex.StackTrace}\n\n";
+                File.AppendAllText(logPath, logEntry);
+            }
+            catch { }
         }
         
         // Load only the last N records for quick access

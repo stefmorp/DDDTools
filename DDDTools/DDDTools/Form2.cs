@@ -119,33 +119,83 @@ namespace DDDTools
         {
             try
             {
+                LogMessage($"Starting Excel load: {path}");
                 Update1(40);
+                
+                // Check if EPPlus is available before using it
+                try
+                {
+                    var test = typeof(OfficeOpenXml.ExcelPackage);
+                    LogMessage("EPPlus DLL loaded successfully");
+                }
+                catch (Exception dllEx)
+                {
+                    LogError("EPPlus DLL Check Failed", dllEx);
+                    throw new DllNotFoundException($"EPPlus.dll not found or cannot be loaded. Make sure EPPlus.dll is in the same folder as DDDTools.exe. Error: {dllEx.Message}", dllEx);
+                }
+                
                 Dumbo.Update(path);
+                LogMessage("Excel load completed successfully");
                 Update1(100);
             }
             catch (Exception ex)
             {
+                LogError("DumboUpdate", ex);
+                
                 // Handle exceptions on background thread - show error on UI thread
-                if (InvokeRequired)
+                try
                 {
-                    this.BeginInvoke(new Action(() =>
+                    if (InvokeRequired && !IsDisposed)
+                    {
+                        this.BeginInvoke(new Action(() =>
+                        {
+                            if (!IsDisposed)
+                            {
+                                MessageBox.Show(
+                                    $"Error loading Excel file:\n\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}\n\nCheck DDDTools.log for details.",
+                                    "Excel Load Error",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Error);
+                            }
+                        }));
+                    }
+                    else if (!IsDisposed)
                     {
                         MessageBox.Show(
-                            $"Error loading Excel file:\n\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}",
+                            $"Error loading Excel file:\n\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}\n\nCheck DDDTools.log for details.",
                             "Excel Load Error",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Error);
-                    }));
+                    }
                 }
-                else
+                catch (Exception uiEx)
                 {
-                    MessageBox.Show(
-                        $"Error loading Excel file:\n\n{ex.Message}\n\nStack Trace:\n{ex.StackTrace}",
-                        "Excel Load Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
+                    // If UI update fails, at least we logged it
+                    LogError("UI Error Display Failed", uiEx);
                 }
             }
+        }
+
+        private void LogMessage(string message)
+        {
+            try
+            {
+                string logPath = Path.Combine(Application.StartupPath, "DDDTools.log");
+                string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [INFO] {message}\n";
+                File.AppendAllText(logPath, logEntry);
+            }
+            catch { }
+        }
+
+        private void LogError(string source, Exception ex)
+        {
+            try
+            {
+                string logPath = Path.Combine(Application.StartupPath, "DDDTools.log");
+                string logEntry = $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] [ERROR] [{source}] {ex.GetType().Name}: {ex.Message}\nStack Trace:\n{ex.StackTrace}\n\n";
+                File.AppendAllText(logPath, logEntry);
+            }
+            catch { }
         }
 
         public void Update1(int i)
